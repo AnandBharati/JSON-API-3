@@ -65,7 +65,7 @@ app.post('/api/addnewuser', (req, res) => {
 
 app.post('/api/verifyuser', (req, res) => {
     const { username, password } = req.body;
-    const success = flase;
+    let success = false;
     if (req.body) {
         const user = usersdata.users.filter((a) => a.username === username);
         console.log(user)
