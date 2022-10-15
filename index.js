@@ -38,16 +38,22 @@ app.post("/api/newpost", (req, res) => {
 })
 
 
-app.delete("/api/removeposts/:id", (req, res) => {
+app.delete("/api/removepost/:id", (req, res) => {
     const {id} = req.params;
-    const post = blogData.find((a)=>a.id === id);
+    const post = blogData.posts.find((a)=>a.id === id);
+    console.log(post)
     if(post){
-        blogData.posts.filter((a)=>a!==post);
+        blogData.posts = blogData.posts.filter((a)=>a.id!==id);
+        res.send({message:"post deleted" , success: true})
+        fs.writeFile('blogs.json', JSON.stringify({ "posts": blogData.posts }), (err) => {
+            if (err) { console.error(err); return; };
+            console.log("File has been saved");
+        });
     }
-    fs.writeFile('blogs.json', JSON.stringify({ "posts": blogData.posts }), (err) => {
-        if (err) { console.error(err); return; };
-        console.log("File has been saved");
-    });
+    else{
+        res.send({message:"post do not fount" , success: true})
+    }
+
 
 
 })
