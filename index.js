@@ -82,5 +82,5 @@ app.get('/api/allusers', (req, res) => {
 })
 
 
-//https://json-api-12345.herokuapp.com/
-//https://git.heroku.com/json-api-12345.git
+//https://json-api-3.herokuapp.com/
+//https://github.com/AnandBharati/JSON-API-3.git
