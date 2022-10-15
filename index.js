@@ -45,7 +45,7 @@ app.post('/api/addnewuser', (req, res) => {
     if (req.body) {
         const { username, email, password } = req.body;
         let isDuplicate = false;
-        isDuplicate = usersdata.users.find((a) => a?.username === username)
+        isDuplicate = usersdata.users.some((a) => a?.username === username)
 
         if (!isDuplicate) {
             usersdata.users.push(req.body);
@@ -67,9 +67,8 @@ app.post('/api/verifyuser', (req, res) => {
     const { username, password } = req.body;
     let success = false;
     if (req.body) {
-        const user = usersdata.users.filter((a) => a.username === username);
-        console.log(user);
-        if (!user) {
+        const user = usersdata.users.find((a) => a.username === username);
+        if (user) {
             if (user.username === username && user.password === password) success = true;
         }
         else success = false;
