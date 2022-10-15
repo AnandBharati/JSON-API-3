@@ -68,7 +68,7 @@ app.post('/api/verifyuser', (req, res) => {
     let success = false;
     if (req.body) {
         const user = usersdata.users.filter((a) => a.username === username);
-        console.log(user)
+        console.log(user);
         if (!user) {
             if (user.username === username && user.password === password) success = true;
         }
