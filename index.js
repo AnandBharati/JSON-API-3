@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
+const shortid = require('shortid')
 const app = express();
 app.use(cors());
 app.use(express.json())
@@ -21,10 +22,10 @@ app.get("/api/allposts", (req, res) => {
 })
 
 app.post("/api/newpost", (req, res) => {
-    let id = 0;
-    if (blogData.posts.length !== 0) {
-        id = blogData.posts[blogData.posts.length - 1].id + 1;
-    }
+    let id = shortid.generate();
+    // if (blogData.posts.length !== 0) {
+    //     id = blogData.posts[blogData.posts.length - 1].id + 1;
+    // }
 
     blogData.posts.push({ "id": id, ...req.body })
 
@@ -36,10 +37,29 @@ app.post("/api/newpost", (req, res) => {
     });
 })
 
+
+app.delete("/api/removeposts/:id", (req, res) => {
+    const {id} = req.params;
+    const post = blogData.find((a)=>a.id === id);
+    if(post){
+        blogData.posts.filter((a)=>a!==post);
+    }
+    fs.writeFile('blogs.json', JSON.stringify({ "posts": blogData.posts }), (err) => {
+        if (err) { console.error(err); return; };
+        console.log("File has been saved");
+    });
+
+
+})
+
 app.delete("/api/removeallposts", (req, res) => {
     blogData.posts = [];
     res.send('All Post Deleted')
 })
+
+
+
+/********Users Data******** */
 
 app.post('/api/addnewuser', (req, res) => {
     if (req.body) {
