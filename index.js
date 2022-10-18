@@ -95,11 +95,14 @@ app.post('/api/verifyuser', (req, res) => {
     if (req.body) {
         const user = usersdata.users.find((a) => a.username === username);
         if (user) {
-            if (user.username === username && user.password === password) success = true;
+            if (user.username === username && user.password === password){
+                success = true;
+                res.send({ "success": success, username: user.username, email: user.email });
+            }       
         }
         else success = false;
     }
-    res.send({ "success": success });
+    res.send({ "success": success, username: null, email: null});
 })
 
 
